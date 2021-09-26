@@ -21,7 +21,7 @@ namespace Persistence.Repositories
 
         public Task<IEnumerable<CampgroundReadModel>> GetAllAsync()
         {
-            var sql = $"SELECT * FROM {TableName} left join {TableNameImage} ON {TableName}.Id = {TableNameImage}.CampgroundId GROUP BY {TableName}.Id";
+            var sql = $"SELECT {TableName}.Id, {TableName}.UserId, {TableName}.Name, {TableName}.Price, {TableName}.Description, {TableName}.DateCreated, {TableNameImage}.Url FROM {TableName} left join {TableNameImage} ON {TableName}.Id = {TableNameImage}.CampgroundId GROUP BY {TableName}.Id";
 
             return _sqlClient.QueryAsync<CampgroundReadModel>(sql);
         }

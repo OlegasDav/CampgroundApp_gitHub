@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Models.WriteModels;
 using Persistence.Repositories;
+using RestApi.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace RestApi.Controllers
 {
+    [Authorize]
+    [EmailVerification]
     [ApiController]
     [Route("images")]
     public class ImageController : ControllerBase
@@ -27,7 +30,6 @@ namespace RestApi.Controllers
         }
 
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult<SaveImageResponseModel>> AddImage([FromBody] SaveImageRequestModel request)
         {
             var campground = await _campgroundRepository.GetAsync(request.CampgroundId);
@@ -67,7 +69,6 @@ namespace RestApi.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [Route("{id}")]
         public async Task<ActionResult<UpdateImageResponseModel>> UpdateImage(Guid id, [FromBody] UpdateImageRequestModel request)
         {
@@ -110,7 +111,6 @@ namespace RestApi.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         [Route("{id}")]
         public async Task<ActionResult> DeleteImage(Guid id)
         {

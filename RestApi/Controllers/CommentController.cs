@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Models.WriteModels;
 using Persistence.Repositories;
+using RestApi.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,8 @@ using System.Threading.Tasks;
 
 namespace RestApi.Controllers
 {
+    [Authorize]
+    [EmailVerification]
     [ApiController]
     [Route("comments")]
     public class CommentController : ControllerBase
@@ -49,7 +52,6 @@ namespace RestApi.Controllers
         //}
 
         [HttpPost]
-        [Authorize]
         public async Task<ActionResult<SaveCommentResponseModel>> AddComment([FromBody] SaveCommentRequestModel request)
         {
             var campground = await _campgroundRepository.GetAsync(request.CampgroundId);
@@ -87,7 +89,6 @@ namespace RestApi.Controllers
         }
 
         [HttpPut]
-        [Authorize]
         [Route("{id}")]
         public async Task<ActionResult<UpdateCommentResponseModel>> UpdateComment(Guid id, [FromBody] UpdateCommentRequestModel request)
         {
@@ -134,7 +135,6 @@ namespace RestApi.Controllers
         }
 
         [HttpDelete]
-        [Authorize]
         [Route("{id}")]
         public async Task<ActionResult> DeleteComment(Guid id)
         {

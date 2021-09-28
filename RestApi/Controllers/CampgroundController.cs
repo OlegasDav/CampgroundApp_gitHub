@@ -4,9 +4,11 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Persistence.Models.WriteModels;
 using Persistence.Repositories;
+using RestApi.Attributes;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace RestApi.Controllers
@@ -90,9 +92,11 @@ namespace RestApi.Controllers
 
         [HttpPost]
         [Authorize]
+        [EmailVerification]
         public async Task<ActionResult<SaveCampgroundResponseModel>> AddCampground([FromBody] SaveCampgroundRequestModel request)
         {
-            var localId = HttpContext.User.Claims.SingleOrDefault(claim => claim.Type == "user_id").Value;
+            //var localId = HttpContext.User.Claims.SingleOrDefault(claim => claim.Type == "user_id").Value;
+            var localId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             var user = await _userRepository.GetAsync(localId);
 
@@ -121,6 +125,7 @@ namespace RestApi.Controllers
 
         [HttpPut]
         [Authorize]
+        [EmailVerification]
         [Route("{id}")]
         public async Task<ActionResult<UpdateCampgroundResponseModel>> UpdateCampground(Guid id, [FromBody] UpdateCampgroundRequestModel request)
         {
@@ -169,6 +174,7 @@ namespace RestApi.Controllers
 
         [HttpDelete]
         [Authorize]
+        [EmailVerification]
         [Route("{id}")]
         public async Task<ActionResult> DeleteCampground(Guid id)
         {

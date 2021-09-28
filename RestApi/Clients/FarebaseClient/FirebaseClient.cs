@@ -51,5 +51,65 @@ namespace RestApi.Clients.FarebaseClient
 
             return await response.Content.ReadFromJsonAsync<SignInResponseModel>();
         }
+
+        public async Task<SendEmailResponseModel> SendEmailAsync(SendEmailRequestModel user)
+        {
+            var url = $"{_apiKeySettings.BaseAddress}:sendOobCode?key={_apiKeySettings.ApiKey}";
+
+            var response = await _httpClient.PostAsJsonAsync(url, user);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var newError = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
+                throw new BadHttpRequestException($"{newError.Error.Message}", newError.Error.Code);
+            }
+
+            return await response.Content.ReadFromJsonAsync<SendEmailResponseModel>();
+        }
+
+        public async Task<ResetPasswordResponseModel> ResetPasswordAsync(ResetPasswordRequestModel user)
+        {
+            var url = $"{_apiKeySettings.BaseAddress}:sendOobCode?key={_apiKeySettings.ApiKey}";
+
+            var response = await _httpClient.PostAsJsonAsync(url, user);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var newError = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
+                throw new BadHttpRequestException($"{newError.Error.Message}", newError.Error.Code);
+            }
+
+            return await response.Content.ReadFromJsonAsync<ResetPasswordResponseModel>();
+        }
+
+        public async Task<ChangeEmailResponseModel> ChangeEmailAsync(ChangeEmailRequestModel user)
+        {
+            var url = $"{_apiKeySettings.BaseAddress}:update?key={_apiKeySettings.ApiKey}";
+
+            var response = await _httpClient.PostAsJsonAsync(url, user);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var newError = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
+                throw new BadHttpRequestException($"{newError.Error.Message}", newError.Error.Code);
+            }
+
+            return await response.Content.ReadFromJsonAsync<ChangeEmailResponseModel>();
+        }
+
+        public async Task<ChangePasswordResponseModel> ChangePasswordAsync(ChangePasswordRequestModel user)
+        {
+            var url = $"{_apiKeySettings.BaseAddress}:update?key={_apiKeySettings.ApiKey}";
+
+            var response = await _httpClient.PostAsJsonAsync(url, user);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var newError = await response.Content.ReadFromJsonAsync<ErrorResponseModel>();
+                throw new BadHttpRequestException($"{newError.Error.Message}", newError.Error.Code);
+            }
+
+            return await response.Content.ReadFromJsonAsync<ChangePasswordResponseModel>();
+        }
     }
 }

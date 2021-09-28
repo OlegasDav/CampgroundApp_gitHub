@@ -12,5 +12,13 @@ namespace RestApi.Clients.FarebaseClient
         Task<SignUpResponseModel> SignUpAsync(SignUpRequestModel user);
 
         Task<SignInResponseModel> SignInAsync(SignInRequestModel user);
+
+        Task<SendEmailResponseModel> SendEmailAsync(SendEmailRequestModel user);
+
+        Task<ResetPasswordResponseModel> ResetPasswordAsync(ResetPasswordRequestModel user);
+
+        Task<ChangeEmailResponseModel> ChangeEmailAsync(ChangeEmailRequestModel user);
+
+        Task<ChangePasswordResponseModel> ChangePasswordAsync(ChangePasswordRequestModel user);
     }
 }
